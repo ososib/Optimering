@@ -1,4 +1,4 @@
-function x = dichotomous_search(F, a, b, tol)
+function [x N] = dichotomous_search(F, a, b, tol)
     % Initialize the variables
     delta = 10e-10; % Small delta for non-overlapping intervals
     N = 0; % Function evaluation counter
