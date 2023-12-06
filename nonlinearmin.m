@@ -5,7 +5,7 @@ function [x_optimal, fval, iter, normg] = nonlinearmin(func, x0, method, tol, re
     x = x0';
     H = eye(length(x0)); % Hessian approximation
     iter = 0;
-    gradient = grad(func, x);
+    gradient =  grad(func, x);
     ls_fun_evals=0;
     
 
@@ -33,7 +33,7 @@ function [x_optimal, fval, iter, normg] = nonlinearmin(func, x0, method, tol, re
 
         % Line search
         F =@(lambda) func(x+lambda*d);
-        [alpha ls_fun_evals] = lineSearch(F, tol/100); % Sample parameters
+        [alpha ls_fun_evals] = lineSearch(F, tol); % Sample parameters
 
         % Update variables
         s = alpha * d;

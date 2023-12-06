@@ -6,9 +6,10 @@
 % use func.m to compute f(x) at a point x by func(x)
 
 func = @(x)rosenbrock(x);
-x = [-2 2 2 -1 -1];
+x=[-2 2];
+%x = [-2 2 2 -1 -1];
 method='BFGS';
-tol=0.001;
+tol=0.01;
 restart=0;
 printout=1;
 
@@ -21,4 +22,4 @@ f = @(x) exp(prod(x));
 
 fun= @(x) f(x) + mu* P(x);
 
-nonlinearmin(fun, x, method , tol , restart , printout)
+nonlinearmin(func, x, method , tol , restart , printout)

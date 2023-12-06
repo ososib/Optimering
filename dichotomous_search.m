@@ -3,6 +3,7 @@ function [x N] = dichotomous_search(F, a, b, tol)
     delta = 10e-10; % Small delta for non-overlapping intervals
     N = 0; % Function evaluation counter
     X = []; % Matrix to store the interval updates
+    x=(a+b)/2;
     
     while (b - a) > tol
         ml = (a + b)/2 - delta;
@@ -18,13 +19,14 @@ function [x N] = dichotomous_search(F, a, b, tol)
         % Update the interval
         if fml < fmr
             b = mr;
+            x = b;
         else
             a = ml;
+            x = a;
         end
 
         % Store the current a, b, and (b-a)
         X = [X; a, b, b - a];
         
     end
-    x=(a+b)/2;
 end
