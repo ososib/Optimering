@@ -1,22 +1,24 @@
 function [x_optimal, fval, iter, normg] = nonlinearmin(func, x0, method, tol, restart, printout)
     % Initialize variables
-    iter_restart = 0; %TODO set 
+    if isrow(x0)
+    % Convert row vector to column vector
+        x = x0';
+    else
+        % If it's already a column vector or not a vector, leave it unchanged
+        x = x0;
+    end
+    iter_restart = length(x0); %TODO set 
     maxIter = 10000; %TODO 
-    x = x0';
     H = eye(length(x0)); % Hessian approximation
     iter = 0;
     gradient =  grad(func, x);
-    ls_fun_evals=0;
-    
+    N_fun_eval=0;
+    N_iter=0;
 
-     if printout
-        fprintf(['Iteration \t' ...
-        'x \t \t \t ' ...
-        'f(x)  \t' ...
-        'norm(grad) \t' ...
-        'ls fun evals \t' ...
-        'lambda \n \n'])
-     end
+        % Print header if printout is enabled
+    if printout
+        fprintf('iteration\t x\t\t f(x)\t\t norm(grad)\t ls fun evals\t lambda\n');
+    end
 
 
 
@@ -33,7 +35,7 @@ function [x_optimal, fval, iter, normg] = nonlinearmin(func, x0, method, tol, re
 
         % Line search
         F =@(lambda) func(x+lambda*d);
-        [alpha ls_fun_evals] = lineSearch(F, tol); % Sample parameters
+        [alpha N_fun_eval] = lineSearch(F, tol); % Sample parameters
 
         % Update variables
         s = alpha * d;
@@ -66,10 +68,17 @@ function [x_optimal, fval, iter, normg] = nonlinearmin(func, x0, method, tol, re
         fval=func(x);
         norm_grad=norm(gradient);
 
-        if printout
-            fprintf(['%d \t' ' [%.2f  %.2f] \t ' ' %.3f \t' ' %.2f\t' '  %d\t' ...
-            ' %.3f \n'] , [iter, x', fval, norm_grad , ls_fun_evals, alpha])
+        
+        % N_iter counter add +1 and fin fvals
+        N_iter = N_iter +  1;
+        % Print current iteration details if printout is enabled
+        if printout && N_iter > 1
+            fprintf('%d\t\t %.4f\t\t %.4f\t\t %.4f\t\t %d\t\t %.4f\n', N_iter, x(1), fval, norm(gradient), N_fun_eval, alpha);
+            for i = 2:length(x)
+                fprintf('\t\t %.4f\n', x(i));
+            end
         end
+
 
         % Check for max iterations
         if iter >= maxIter
