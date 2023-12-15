@@ -47,11 +47,11 @@ function [x_optimal, fval, iter, normg] = nonlinearmin(func, x0, method, tol, re
         % Update Hessian approximation
         if strcmpi(method, 'BFGS')
 
-            test = 1/(p'*q);
-            test1 = (1+(q'*H*q)/(p'*q));
-            test2 = (p*p');
-            test3= H*(q*p');
-            test4= p*q'*H; 
+            %test = 1/(p'*q);
+            %test1 = (1+(q'*H*q)/(p'*q));
+            %test2 = (p*p');
+            %test3= H*(q*p');
+            %test4= p*q'*H; 
 
             H = H + 1/(p'*q)*((1+(q'*H*q)/(p'*q))*(p*p') - H*q*p' - p*q'*H);
         elseif strcmpi(method, 'DFP')
